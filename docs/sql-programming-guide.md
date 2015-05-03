@@ -434,10 +434,10 @@ schemaPeople.registerTempTable("people");
 DataFrame teenagers = sqlContext.sql("SELECT name FROM people WHERE age >= 13 AND age <= 19")
 
 // The results of SQL queries are DataFrames and support all the normal RDD operations.
-// The columns of a row in the result can be accessed by ordinal.
+// The columns of a row in the result can be accessed by field index or field name.
 List<String> teenagerNames = teenagers.javaRDD().map(new Function<Row, String>() {
   public String call(Row row) {
-    return "Name: " + row.getString(0);
+    return "Name: " + row.getString("name");
   }
 }).collect();
 
@@ -601,10 +601,10 @@ peopleDataFrame.registerTempTable("people");
 DataFrame results = sqlContext.sql("SELECT name FROM people");
 
 // The results of SQL queries are DataFrames and support all the normal RDD operations.
-// The columns of a row in the result can be accessed by ordinal.
+// The columns of a row in the result can be accessed by field index or field name.
 List<String> names = results.javaRDD().map(new Function<Row, String>() {
   public String call(Row row) {
-    return "Name: " + row.getString(0);
+    return "Name: " + row.getString("name");
   }
 }).collect();
 
@@ -865,7 +865,7 @@ parquetFile.registerTempTable("parquetFile");
 DataFrame teenagers = sqlContext.sql("SELECT name FROM parquetFile WHERE age >= 13 AND age <= 19");
 List<String> teenagerNames = teenagers.javaRDD().map(new Function<Row, String>() {
   public String call(Row row) {
-    return "Name: " + row.getString(0);
+    return "Name: " + row.getString("name");
   }
 }).collect();
 {% endhighlight %}
